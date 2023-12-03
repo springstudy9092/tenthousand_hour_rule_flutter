@@ -22,6 +22,8 @@ class _GoalDetail extends State<GoalDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size; // 추후 전역화
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -29,7 +31,9 @@ class _GoalDetail extends State<GoalDetail> {
         children: [
           //공통화 필요
           Container(
-            child: Text('영어마스터'),
+            child: Text('영어마스터', textAlign: TextAlign.center,),
+            width: size.width * 0.5,
+            height: size.height * 0.1,
             decoration: BoxDecoration(
                 border: Border.all(
                     width: 2,
@@ -38,7 +42,9 @@ class _GoalDetail extends State<GoalDetail> {
             ),
           ),
           Container(
-            child: Text('미드 1만시간 보기'),
+            child: Text('미드 1만시간 보기', textAlign: TextAlign.center,),
+            width: size.width * 0.5,
+            height: size.height * 0.07,
             decoration: BoxDecoration(
                 border: Border.all(
                     width: 2,
@@ -47,14 +53,26 @@ class _GoalDetail extends State<GoalDetail> {
             ),
           ),
           Container(
-            child: Text('여기다 시간 뽑기 : ' + totalSeconds.toString()),
+            child: Text('여기다 시간 뽑기 : ' + totalSeconds.toString(), textAlign: TextAlign.center,),
+            width: size.width * 0.5,
+            height: size.height * 0.3,
+            decoration: BoxDecoration(
+                border: Border.all(
+                    width: 2,
+                    color: Colors.black
+                )
+            ),
           ),
+          SizedBox(height: size.height * 0.05,),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.edit_note_outlined),
+              Icon(Icons.edit_note_outlined, size: 50),
+              SizedBox(width: size.width * 0.02,),
               //Icon(Icons.play_arrow, size: 25,),
-              IconButton(onPressed: isRunning ? onPausePressed : onStartPressed, icon: isRunning ? Icon(Icons.pause, size: 25,) : Icon(Icons.play_arrow, size: 25,)),
-              Icon(Icons.mode_edit_outlined),
+              IconButton(onPressed: isRunning ? onPausePressed : onStartPressed, icon: isRunning ? Icon(Icons.pause, size: 25,) : Icon(Icons.play_arrow, size: 50,)),
+              SizedBox(width: size.width * 0.02,),
+              Icon(Icons.mode_edit_outlined, size: 50),
             ],
           )
         ],

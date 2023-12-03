@@ -13,10 +13,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => GoalDetail()), // 페이지 호출
+        MaterialPageRoute(builder: (context) => Login()), // 페이지 호출
       );
     });
   }
