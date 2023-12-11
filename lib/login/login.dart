@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sample_project/api/login/register_user.dart';
 
 import '../goal_datail/goal_detail_main.dart';
 
@@ -22,19 +23,21 @@ class Login extends StatelessWidget {
               IconButton(
                 icon: Image.asset('images/kakao_login_large_wide.png', width: 300, height: 65),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => GoalDetail())
-                  );
-                  // OAuth.loginWithKakao().then((value) => {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(builder: (context) => Home()),
-                  //   )
-                  // });
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => GoalDetail())
+                  // );
+                  RegisterUserApi.loginWithKakao().then((value) => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => GoalDetail()),
+                    )
+                  }).onError((error, stackTrace) => {
+                    
+                  });
                 },
               ),
               SizedBox(height: 16),
               IconButton(
-                icon: Image.asset('naver_login2.png', width: 300, height: 65),
+                icon: Image.asset('images/kakao_login_large_wide.png', width: 300, height: 65),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent),
                 onPressed: _loginWithNaver,

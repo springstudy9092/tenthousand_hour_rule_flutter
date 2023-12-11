@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:sample_project/login/splash.dart';
 
 import 'goal_datail/goal_detail_main.dart';
 import 'goal_datail/goal_detail_main_test.dart';
 
 void main() {
+  KakaoSdk.init(nativeAppKey: '', javaScriptAppKey: '');
   runApp(const MyApp());
 }
 

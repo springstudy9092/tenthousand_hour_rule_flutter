@@ -32,7 +32,7 @@ class _GoalDetail extends State<GoalDetail> {
           //공통화 필요
           Container(
             child: Text('영어마스터', textAlign: TextAlign.center,),
-            width: size.width * 0.5,
+            width: size.width * 0.8,
             height: size.height * 0.1,
             decoration: BoxDecoration(
                 border: Border.all(
@@ -43,7 +43,7 @@ class _GoalDetail extends State<GoalDetail> {
           ),
           Container(
             child: Text('미드 1만시간 보기', textAlign: TextAlign.center,),
-            width: size.width * 0.5,
+            width: size.width * 0.8,
             height: size.height * 0.07,
             decoration: BoxDecoration(
                 border: Border.all(
@@ -54,7 +54,7 @@ class _GoalDetail extends State<GoalDetail> {
           ),
           Container(
             child: Text('여기다 시간 뽑기 : ' + totalSeconds.toString(), textAlign: TextAlign.center,),
-            width: size.width * 0.5,
+            width: size.width * 0.8,
             height: size.height * 0.3,
             decoration: BoxDecoration(
                 border: Border.all(
