@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sample_project/api/login/register_user.dart';
+import 'package:sample_project/goal_main/GoalMain.dart';
 
 import '../goal_datail/goal_detail_main.dart';
 
@@ -28,10 +29,10 @@ class Login extends StatelessWidget {
                   RegisterUserApi.loginWithKakao().then((value) => {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => GoalDetail()),
+                      MaterialPageRoute(builder: (context) => GoalDetail()), // GoalMain
                     )
                   }).onError((error, stackTrace) => {
-                    
+
                   });
                 },
               ),
