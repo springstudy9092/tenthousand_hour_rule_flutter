@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sample_project/api/login/register_user.dart';
-import 'package:sample_project/goal_main/GoalMain.dart';
+import 'package:sample_project/goal_main/goal_main.dart';
 
 import '../goal_datail/goal_detail_main.dart';
 
