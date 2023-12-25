@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:html';
 import 'package:flutter/material.dart';
+import 'package:sample_project/common/global.dart';
 import '../common/main_goal_box.dart';
 import 'package:http/http.dart' as http;
 
@@ -152,7 +152,7 @@ class _GoalMain extends State<GoalMain> {
                       ),
                       color: Colors.black,
                       child: Column(
-                        children: childWidgets,
+                        children: Global.isUseServer() ? childWidgets : childWidgets1,
                       ),
                     ),
                   );

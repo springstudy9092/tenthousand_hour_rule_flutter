@@ -10,31 +10,28 @@ class RegisterUser extends StatelessWidget {
 
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.black,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                child: Text("시작하기", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                child: Text("시작하기", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white)),
                 width: size.width * 0.8,
                 height: size.height * 0.2,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 2,
-                        color: Colors.black
-                    )
-                ),
               ),
               SizedBox(height: size.height * 0.02),
               Container(
                 child: Column(
                   children: [
-                    Text("·사용자 이름"),
+                    Text("이름", style: TextStyle(fontSize: 14, color: Colors.white)),
                     TextField(
                       maxLength: 8,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: '사용자 이름을 입력해주세요',
+                        labelStyle: TextStyle(color: Colors.white),
+                        fillColor: Color(0xFF3D3D3D)
                       ),
                     )
                   ],

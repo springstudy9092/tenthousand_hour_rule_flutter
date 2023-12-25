@@ -23,10 +23,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size; // 추후 전역화
+
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Container(
         child: Center(
-          child: Text("1만\n시간의\n법칙", style: TextStyle(fontSize: 90),),
+          child: Image.asset('images/splash.png', width: size.width, height: size.height*0.5),
         ),
       ),
     );
