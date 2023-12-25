@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:html';
 import 'package:flutter/material.dart';
-
 import '../common/main_goal_box.dart';
+import 'package:http/http.dart' as http;
+
+import '../entities/goal.dart';
 
 // GoalMain 주요 기능
 // 목표 등록
@@ -14,21 +18,43 @@ class GoalMain extends StatefulWidget {
 }
 
 class _GoalMain extends State<GoalMain> {
+  late Future<List<Goal>> goalListFuture;
 
   @override
   void initState() {
     super.initState();
+    goalListFuture = getGoalList();
+  }
+
+
+  List<Goal> parseGoalList(String responseBody) {
+    final List<dynamic> parsed = jsonDecode(responseBody);
+    return parsed.map((json) => Goal.fromJson(json)).toList();
+  }
+
+  Future<List<Goal>> getGoalList() async {
+    String url = "localhost:8080";
+    //final response = await http.get(Uri.http(url, '/api/goals')); hal ex 로 조회 안됩니다.
+    final response =  await http.get(Uri.http(url, '/goal/list'));
+    if (response.statusCode == 200) {
+      return parseGoalList(response.body);
+    } else {
+      // 오류 상태 코드일 경우, 예외를 던져서 처리
+      throw Exception('Failed to load goal list');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
 
     final Size size = MediaQuery.of(context).size;
+    Future<List<Goal>> goalList = getGoalList();
+    print('HTTP body2 : ${goalList}');
 
     // body에 들어갈 children list
     // 목표별로 color 가지고 있음
     // TODO : time 파라미터 형식 변경해야함 → 임시로 문자열 적용
-    List<Widget> childWidgets = [
+    List<Widget> childWidgets1 = [
       MainGoalBox(color: Color(0xFFED4141), title : "영어 마스터 1월까지 목표", time: '0000:22:11',),
       MainGoalBox(color: Color(0xFFBC9984), title : "클라이밍 전문가", time: '0000:23:11',),
       MainGoalBox(color: Color(0xFFB1BC84), title : "탄산음료 끊기", time: '0001:23:11',),
@@ -92,18 +118,47 @@ class _GoalMain extends State<GoalMain> {
           // Expanded 사용하여 header 제외한 하단 영역 채우고,
           // 스크롤도 하단쪽에만 생성되도록 적용
           Expanded(
-              child: Scrollbar(
-                  child:SingleChildScrollView(
-                    child : Container(
-                        padding: EdgeInsets.fromLTRB(size.width * 0.05, size.height * 0.05, size.width * 0.05, size.height * 0.05),
-                        color: Colors.black,
-                        child: Column(
-                            children: childWidgets
-                        )
-                    ),
-                  )
 
-              )
+            child: FutureBuilder<List<Goal>>(
+              future: goalListFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // 로딩 중일 때
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  // 에러 발생 시
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  // 데이터가 준비된 경우
+                  List<Goal> goalList = snapshot.data ?? [];
+                  print('HTTP body2 : $goalList');
+
+                  // TODO: goalList를 사용하여 화면을 구성하는 코드 작성
+                  List<Widget> childWidgets = goalList.map((goal) {
+                    return MainGoalBox(
+                      color: Color(0xFFED4141),
+                      title: goal.goalName,
+                      time: '0000:22:11',
+                    );
+                  }).toList();
+
+                  return SingleChildScrollView(
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(
+                        size.width * 0.05,
+                        size.height * 0.05,
+                        size.width * 0.05,
+                        size.height * 0.05,
+                      ),
+                      color: Colors.black,
+                      child: Column(
+                        children: childWidgets,
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
