@@ -31,6 +31,21 @@ class _GoalMain extends State<GoalMain> {
     final List<dynamic> parsed = jsonDecode(responseBody);
     return parsed.map((json) => Goal.fromJson(json)).toList();
   }
+  //3672 1  1
+  // 초 > 시분초 변환 함수
+  String getFormatHHmmss(int seconds) {
+    // ~/ 나누기 연산 후 소수점 버린 몫만 가져오는 연산자
+    int hour = seconds ~/ 3600;
+    int min = (seconds ~/ 60) % 60; // % 60 나머지만 분에 해당하기 때문에
+    int sec = seconds % 60;
+
+    String hoursStr = (hour == 0) ? "0000" : "$hour";
+    String minutesStr = (min == 0) ? "00" : "$min";
+    String secondsStr = (sec == 0) ? "00" : "$sec";
+
+    return "$hoursStr:$minutesStr:$secondsStr";
+  }
+
 
   Future<List<Goal>> getGoalList() async {
     String url = "localhost:8080";
@@ -57,7 +72,7 @@ class _GoalMain extends State<GoalMain> {
     List<Widget> childWidgets1 = [
       MainGoalBox(color: Color(0xFFED4141), title : "영어 마스터 1월까지 목표", time: '0000:22:11',),
       MainGoalBox(color: Color(0xFFBC9984), title : "클라이밍 전문가", time: '0000:23:11',),
-      MainGoalBox(color: Color(0xFFB1BC84), title : "탄산음료 끊기", time: '0001:23:11',),
+      MainGoalBox(color: Color(0xFFB1BC89), title : "탄산음료 끊기", time: '0001:23:11',),
       MainGoalBox(color: Color(0xFFED4141), stat: '0'), // 목표 신규 추가 TODO stat 값 추후 정리 예정
     ];
 
@@ -132,13 +147,15 @@ class _GoalMain extends State<GoalMain> {
                   // 데이터가 준비된 경우
                   List<Goal> goalList = snapshot.data ?? [];
                   print('HTTP body2 : $goalList');
-
                   // TODO: goalList를 사용하여 화면을 구성하는 코드 작성
                   List<Widget> childWidgets = goalList.map((goal) {
+                    String hexCode = goal.color; // ex) ED4141
+                    // 0x : 16진수 의미
+                    // FF : 알파 = 색상의 투명도  = 255 = 완전불투명
                     return MainGoalBox(
-                      color: Color(0xFFED4141),
-                      title: goal.goalName,
-                      time: '0000:22:11',
+                      color:Color(int.parse("0xFF$hexCode")), // 색상
+                      title: goal.goalName, // 목표명
+                      time: getFormatHHmmss(goal.accumulateSeconds), // 누적 시간 (초) → (시분초) 환산
                     );
                   }).toList();
 
