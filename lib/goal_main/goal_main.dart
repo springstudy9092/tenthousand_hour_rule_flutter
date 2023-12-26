@@ -156,6 +156,7 @@ class _GoalMain extends State<GoalMain> {
                       color:Color(int.parse("0xFF$hexCode")), // 색상
                       title: goal.goalName, // 목표명
                       time: getFormatHHmmss(goal.accumulateSeconds), // 누적 시간 (초) → (시분초) 환산
+                      goal: goal,
                     );
                   }).toList();
 

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sample_project/goal_main/goal_add.dart';
+
+import '../entities/goal.dart';
 
 // 메인 목표 리스트 페이지 중 직사각형 목표상자 재사용
 class MainGoalBox extends StatefulWidget {
@@ -6,13 +9,14 @@ class MainGoalBox extends StatefulWidget {
   final String time; // TODO 시간 데이터 형식 수정 필요함 ex) 16:29
   final Color color;
   final String stat; // 신규0, 진행중1, 중지2, 삭제3, 완료4 임시 컬럼 상태 관리. 일단 진행하고 나중에 소스 개선 enum
-
+  final Goal? goal; // 수정 예정
   MainGoalBox({
     Key? key,
     this.title = "새로운 목표",
     this.time = '0000:00:00', // hh:mm:dd
     this.color = Colors.black, // 추가한 목표 없는 경우 검정 네모로 보이도록 기본값 설정
-    this.stat = '1', //
+    this.stat = '1',
+    this.goal = null, // 수정 예정
   }) :super(key: key);
 
   @override
@@ -39,7 +43,16 @@ class _MainGoalBox extends State<MainGoalBox> {
           // 1) 왼쪽 사각형
           Positioned(
             left: 0,
-            child: Container(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GoalAdd(),
+                    settings: RouteSettings(arguments: widget.goal),),
+                );
+              },
+              child: Container(
               width: size.width * 0.4,
               height: size.width * 0.4,
               decoration:
@@ -105,6 +118,7 @@ class _MainGoalBox extends State<MainGoalBox> {
                 ),
               ),
             ),
+            )
           ),
           // 2) 오른쪽 동그라미 재생 버튼
           Positioned(
