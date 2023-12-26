@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:sample_project/entities/goal.dart';
 
 import '../common/main_goal_box.dart';
 
@@ -20,7 +21,7 @@ class _GoalAdd extends State<GoalAdd> {
 
   @override
   Widget build(BuildContext context) {
-
+    final Goal goal = ModalRoute.of(context)!.settings.arguments as Goal;
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -140,7 +141,7 @@ class _GoalAdd extends State<GoalAdd> {
                     ),
                     child:
                       Text(
-                        '새로운 목표',
+                        goal != null ? '목표 수정하기' : '새로운 목표',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -171,7 +172,8 @@ class _GoalAdd extends State<GoalAdd> {
                           ),
                         ),
                         TextField(
-                          style: TextStyle(color: Colors.yellow), // 입력된 텍스트
+                          controller:  TextEditingController(text: goal.goalName),
+                          style: TextStyle(color: Colors.white, fontSize:size.width * 0.025), // 입력된 텍스트
                           decoration: InputDecoration(
                             hintText: '제목을 입력해 주세요',
                             border: InputBorder.none,
@@ -204,7 +206,8 @@ class _GoalAdd extends State<GoalAdd> {
                           ),
                         ),
                         TextField(
-                          style: TextStyle(color: Colors.yellow), // 입력된 텍스트
+                          controller:  TextEditingController(text: goal.goalDetail),
+                          style: TextStyle(color: Colors.white, fontSize:size.width * 0.025), // 입력된 텍스트
                           decoration: InputDecoration(
                             hintText: '구체적인 내용을 입력해 주세요(선택)',
                             border: InputBorder.none,
@@ -238,6 +241,7 @@ class _GoalAdd extends State<GoalAdd> {
                           ),
                         ),
                         TextField(
+                          controller:  TextEditingController(text: goal.goalSeconds.toString()),
                           style:
                               TextStyle(
                                 color: Color(0xFFED4141),
