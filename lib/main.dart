@@ -5,6 +5,7 @@ import 'package:sample_project/login/splash.dart';
 import 'goal_datail/goal_detail_lp.dart';
 import 'goal_datail/goal_detail_main.dart';
 import 'goal_datail/goal_detail_main_test.dart';
+import 'login/register_user.dart';
 
 void main() {
   KakaoSdk.init(nativeAppKey: '', javaScriptAppKey: '');
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: RotationAnimation(), //SplashScreen
+        home: RegisterUser(), //SplashScreen
     );
   }
 }

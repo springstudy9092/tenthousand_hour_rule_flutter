@@ -20,6 +20,14 @@ class Global with ChangeNotifier{
     return Colors.black;
   }
 
+  static Color getMaiInputBoxColor(){
+    return Color(0xFF3D3D3D);
+  }
+
+  static Color getMainRedColor(){
+    return Color(0xFFED4141);
+  }
+
   static bool isUseServer(){
     return false;
   }
