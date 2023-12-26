@@ -7,6 +7,8 @@ class Goal{
   final int goalSeconds;
   final int accumulateSeconds;
   final double goalPercent;
+  final String goalStat;
+  final String color;
   final List<int> writeDate;
   final List<int> modifyDate;
 
@@ -18,6 +20,8 @@ class Goal{
     required this.goalSeconds,
     required this.accumulateSeconds,
     required this.goalPercent,
+    required this.goalStat,
+    required this.color,
     required this.writeDate,
     required this.modifyDate,
   });
@@ -31,6 +35,8 @@ class Goal{
       goalSeconds: json['goal_seconds'],
       accumulateSeconds: json['accumulate_seconds'],
       goalPercent: json['goal_percent'],
+      goalStat: json['goal_stat'],
+      color: json['color'],
       writeDate: List<int>.from(json['write_date']),
       modifyDate: List<int>.from(json['modify_date']),
     );
