@@ -8,7 +8,7 @@ import 'goal_datail/goal_detail_main_test.dart';
 import 'login/register_user.dart';
 
 void main() {
-  KakaoSdk.init(nativeAppKey: '', javaScriptAppKey: '');
+  KakaoSdk.init(nativeAppKey: '15055436816e45c145b22120df6c15e7', javaScriptAppKey: '2b4013e055f6c902fb928502fa220f20');
   runApp(const MyApp());
 }
 
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: RegisterUser(), //SplashScreen
+        home: SplashScreen(), //SplashScreen
     );
   }
 }
