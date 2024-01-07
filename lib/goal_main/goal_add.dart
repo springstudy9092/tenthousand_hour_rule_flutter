@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:sample_project/entities/goal.dart';
+import 'package:sample_project/goal_main/goal_main.dart';
 
+import '../common/confirm_modal.dart';
 import '../common/main_goal_box.dart';
 
 // GoalAdd 주요 기능
@@ -24,6 +26,18 @@ class _GoalAdd extends State<GoalAdd> {
     final Goal goal = ModalRoute.of(context)!.settings.arguments as Goal;
     final Size size = MediaQuery.of(context).size;
 
+    Future<void> _showConfirmModal(BuildContext context, String content, VoidCallback confirmfunc) async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return ConfirmModal(
+              content: content,
+            onConfirm: confirmfunc,
+          );
+        }
+      );
+    }
     return Scaffold(
       body:
         Stack(
@@ -49,10 +63,25 @@ class _GoalAdd extends State<GoalAdd> {
                   child:
                     Align(
                       alignment: Alignment.centerLeft,
-                      child:Icon(
-                        Icons.arrow_back_ios_sharp,
-                        color: Color(0xFFED4141), // 아이콘에 고정색상 검회색 212121
-                        size: size.width * 0.1,
+                      child: GestureDetector( // icon 클릭시 이벤트 주는 경우
+                        onTap: () {
+                          String msg = goal.goalStat != 'N' ? '목표 수정을 취소하겠습니까? \n변경한 내용은 저장되지 않습니다.':
+                          '새로운 목표 설정을 취소하겠습니까? \n작성한 내용은 저장되지 않습니다.';
+                          _showConfirmModal(
+                              context, msg, (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => GoalMain(),
+                                  )
+                                ); // 별도의 위젯으로 분리
+                              });
+                        },
+                        child: Icon(
+                          Icons.arrow_back_ios_sharp,
+                          color: Color(0xFFED4141),
+                          size: size.width * 0.1,
+                        ),
                       ),
                     ),
                 ),
@@ -95,14 +124,23 @@ class _GoalAdd extends State<GoalAdd> {
                     ),
                   ),
                   child:
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child:Icon(
-                      Icons.arrow_forward,
-                      color: Color(0xFFED4141), // 아이콘에 고정색상 검회색 212121
-                      size: size.width * 0.1,
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector( // icon 클릭시 이벤트 주는 경우
+                        onTap: () {
+                          String msg = '저장하시겠습니까?\n';
+                          _showConfirmModal(context, msg, (){
+                            // 저장로직
+                            print('저장로직태우기');
+                          });
+                        },
+                        child: Icon(
+                          Icons.arrow_forward,
+                          color: Color(0xFFED4141),
+                          size: size.width * 0.1,
+                        ),
+                      ),
                     ),
-                  ),
                 ),
               ],
             ),
@@ -271,6 +309,7 @@ class _GoalAdd extends State<GoalAdd> {
       )
     );
   }
+
 }
 
 

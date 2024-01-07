@@ -64,11 +64,9 @@ class _GoalMain extends State<GoalMain> {
 
     final Size size = MediaQuery.of(context).size;
     Future<List<Goal>> goalList = getGoalList();
-    print('HTTP body2 : ${goalList}');
+    print('goal list : ${goalList}');
 
-    // body에 들어갈 children list
-    // 목표별로 color 가지고 있음
-    // TODO : time 파라미터 형식 변경해야함 → 임시로 문자열 적용
+    // 스프링부트 서버없이 하드코딩 정보로 조회하기 → 추후 제거 예정
     List<Widget> childWidgets1 = [
       MainGoalBox(color: Color(0xFFED4141), title : "영어 마스터 1월까지 목표", time: '0000:22:11',),
       MainGoalBox(color: Color(0xFFBC9984), title : "클라이밍 전문가", time: '0000:23:11',),
@@ -147,7 +145,9 @@ class _GoalMain extends State<GoalMain> {
                   // 데이터가 준비된 경우
                   List<Goal> goalList = snapshot.data ?? [];
                   print('HTTP body2 : $goalList');
-                  // TODO: goalList를 사용하여 화면을 구성하는 코드 작성
+                  int listCnt = goalList.length;
+
+                  // 가져온 리스트를 박스로 만들어서 담아주기
                   List<Widget> childWidgets = goalList.map((goal) {
                     String hexCode = goal.color; // ex) ED4141
                     // 0x : 16진수 의미
@@ -157,8 +157,13 @@ class _GoalMain extends State<GoalMain> {
                       title: goal.goalName, // 목표명
                       time: getFormatHHmmss(goal.accumulateSeconds), // 누적 시간 (초) → (시분초) 환산
                       goal: goal,
+                      stat: goal.goalStat,
+                      listCnt : listCnt
                     );
                   }).toList();
+
+                  // 리스트 마지막에 신규등록용 목표 박스 추가함
+                  childWidgets.add(MainGoalBox(color: Color(0xFFED4141), stat: 'N', listCnt : listCnt));
 
                   return SingleChildScrollView(
                     child: Container(
