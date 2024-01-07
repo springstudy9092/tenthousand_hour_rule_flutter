@@ -4,6 +4,7 @@ import 'package:sample_project/login/splash.dart';
 
 import 'goal_datail/goal_detail_lp.dart';
 import 'goal_datail/goal_detail_main.dart';
+import 'goal_datail/goal_detail_main_2.dart';
 import 'goal_datail/goal_detail_main_test.dart';
 import 'login/register_user.dart';
 
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: SplashScreen(), //SplashScreen
+        home: GoalDetail2(), //SplashScreen
     );
   }
 }

@@ -26,10 +26,10 @@ class Login extends StatelessWidget {
               SizedBox(height: size.height * 0.25),
               IconButton(
                 icon: Image.asset('images/kakao_login_large_wide.png', width: size.width * 0.8, height: size.height * 0.1),
-                onPressed: () {
+                onPressed: () async {
                   // Navigator.push(context, MaterialPageRoute(builder: (context) => GoalDetail())
                   // );
-                  RegisterUserApi.loginWithKakao().then((result) => {
+                  await RegisterUserApi.loginWithKakao().then((result) => {
                     if(result["isUser"]){
                       Navigator.push(
                         context,
@@ -44,7 +44,9 @@ class Login extends StatelessWidget {
                     }
 
                   }).onError((error, stackTrace) => {
+                      if(error != null){
 
+                      }
                   });
                 },
               ),
