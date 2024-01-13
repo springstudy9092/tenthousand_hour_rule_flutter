@@ -9,21 +9,21 @@ class Goal{
   final double goalPercent;
   final String goalStat;
   final String color;
-  final List<int> writeDate;
-  final List<int> modifyDate;
+  final String writeDate; // 변경 예정
+  final String modifyDate; // 변경 예정
 
   Goal({
     required this.userId,
-    required this.goalId,
-    required this.goalName,
-    required this.goalDetail,
-    required this.goalSeconds,
-    required this.accumulateSeconds,
-    required this.goalPercent,
-    required this.goalStat,
-    required this.color,
-    required this.writeDate,
-    required this.modifyDate,
+    this.goalId = 'temp', // 저장시 서버에서 채변
+    this.goalName = '',
+    this.goalDetail = '',
+    this.goalSeconds = 0,
+    this.accumulateSeconds = 0,
+    this.goalPercent = 0,
+    this.goalStat = 'N',
+    this.color = 'ED4141',
+    this.writeDate = '',
+    this.modifyDate = ''
   });
 
   factory Goal.fromJson(Map<String, dynamic> json) {
@@ -37,8 +37,8 @@ class Goal{
       goalPercent: json['goal_percent'],
       goalStat: json['goal_stat'],
       color: json['color'],
-      writeDate: List<int>.from(json['write_date']),
-      modifyDate: List<int>.from(json['modify_date']),
+      //writeDate: List<int>.from(json['write_date']),
+      //modifyDate: List<int>.from(json['modify_date']),
     );
   }
 

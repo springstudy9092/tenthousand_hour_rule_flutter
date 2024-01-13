@@ -179,7 +179,7 @@ class _GoalAdd extends State<GoalAdd> {
                     ),
                     child:
                       Text(
-                        goal != null ? '목표 수정하기' : '새로운 목표',
+                        goal.goalStat != 'N' ? '목표 수정하기' : '새로운 목표',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

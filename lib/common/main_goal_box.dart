@@ -48,8 +48,9 @@ class _MainGoalBox extends State<MainGoalBox> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => GoalAdd(),
-                  settings: RouteSettings(arguments: widget.goal),),
+                  // widget.userId 전역에서 가져올 수 있으면 분기 처리 제거
+                  builder: (context) => GoalAdd(),// 목표 신규 및 수정 페이지로 이동
+                  settings: RouteSettings(arguments: widget.stat != 'N' ? widget.goal : Goal(userId: widget.userId)),),
               );
             }
           },
