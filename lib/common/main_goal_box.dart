@@ -122,6 +122,8 @@ class _MainGoalBox extends State<MainGoalBox> {
           ),
         )
     ); // 왼쪽 사각형
+    
+    // 실행으로 넘어감 TODO 연결
     Positioned rightCircle = Positioned(
       bottom: 0,
       left: widget.stat != 'F' ? size.width * 0.3 : size.width * 0.2, // 완료면 동그라미 들어가야함
