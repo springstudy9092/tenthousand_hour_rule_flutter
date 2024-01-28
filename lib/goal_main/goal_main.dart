@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:sample_project/common/global.dart';
 import '../common/main_goal_box.dart';
 import 'package:http/http.dart' as http;
 
+import '../common/myinfo.dart';
 import '../entities/goal.dart';
 
 // GoalMain 주요 기능
@@ -50,7 +52,7 @@ class _GoalMain extends State<GoalMain> {
   Future<List<Goal>> getGoalList() async {
     String url = "localhost:8080";
     //final response = await http.get(Uri.http(url, '/api/goals')); hal ex 로 조회 안됩니다.
-    final response =  await http.get(Uri.http(url, '/goal/list'));
+    final response =  await http.get(Uri.http(url, '/goals/list'));
     if (response.statusCode == 200) {
       return parseGoalList(response.body);
     } else {
@@ -87,23 +89,52 @@ class _GoalMain extends State<GoalMain> {
             child:
             Column(
               children: [
-                Container(
-                  height: size.height * 0.03,
-                  width: size.width,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.yellow,// 제거 예정
-                      width: 0.1,
+                Row(
+                  children: [
+                    Container(
+                      height: size.height * 0.03,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.yellow,// 제거 예정
+                          width: 0.1,
+                        ),
+                      ),
+                      child:
+                      Text(
+                        '1만 시간의 법칙',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: size.width * 0.03, // 예시로 화면 폭의 5% 크기로 설정
+                        ),
+                      ),
                     ),
-                  ),
-                  child:
-                  Text(
-                    '1만 시간의 법칙',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: size.width * 0.03, // 예시로 화면 폭의 5% 크기로 설정
+                    Container(
+                      width: size.width * 0.6,
                     ),
-                  ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector( // icon 클릭시 이벤트 주는 경우
+                        onTap: () {
+                          // TODO 하드 코딩 제거 필요
+                          // 전역에서 user정보 가져올 수 있는지 확인
+                          var user = {'id' : 'tarnet0@stumbleupon.com', 'userName' : '김미미'};
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MyInfo(),
+                                // 파라미터 전달
+                                settings: RouteSettings(arguments : user),
+                            )
+                          ); // 별도
+                        },
+                        child: Icon(
+                          Icons.settings,
+                          color: Colors.white,
+                          size: size.width * 0.04,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Container(
                   height: size.height * 0.07,

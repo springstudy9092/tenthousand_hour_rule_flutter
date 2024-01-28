@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sample_project/entities/goal.dart';
 import 'package:sample_project/goal_main/goal_main.dart';
-
+import 'package:http/http.dart' as http;
 import '../common/confirm_modal.dart';
 import '../common/main_goal_box.dart';
-
+import 'dart:convert';
 // GoalAdd 주요 기능
 // GoalMain에서 진입한 목표 등록 화면
 
@@ -21,11 +22,37 @@ class _GoalAdd extends State<GoalAdd> {
     super.initState();
   }
 
+  List<Goal> parseGoalList(String responseBody) {
+    final List<dynamic> parsed = jsonDecode(responseBody);
+    return parsed.map((json) => Goal.fromJson(json)).toList();
+  }
+
+  void saveGoal(Goal goal) async {
+    String url = "localhost:8080";
+    final response = await http.post(
+      Uri.http(url, '/goals/save'),
+      //body: jsonEncode({goal}), 직렬화 불가
+      body: jsonEncode(goal.toJson()),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GoalMain()
+        )
+      );
+    } else {
+      // 오류 상태 코드일 경우, 예외를 던져서 처리
+      throw Exception('Failed to load goal list');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Goal goal = ModalRoute.of(context)!.settings.arguments as Goal;
+    Goal goal = ModalRoute.of(context)!.settings.arguments as Goal;
     final Size size = MediaQuery.of(context).size;
-
     Future<void> _showConfirmModal(BuildContext context, String content, VoidCallback confirmfunc) async {
       return showDialog<void>(
         context: context,
@@ -68,7 +95,9 @@ class _GoalAdd extends State<GoalAdd> {
                           String msg = goal.goalStat != 'N' ? '목표 수정을 취소하겠습니까? \n변경한 내용은 저장되지 않습니다.':
                           '새로운 목표 설정을 취소하겠습니까? \n작성한 내용은 저장되지 않습니다.';
                           _showConfirmModal(
-                              context, msg, (){
+                              context, msg,
+                                  // save 
+                                  (){
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -131,7 +160,8 @@ class _GoalAdd extends State<GoalAdd> {
                           String msg = '저장하시겠습니까?\n';
                           _showConfirmModal(context, msg, (){
                             // 저장로직
-                            print('저장로직태우기');
+                            //print('로그' + goal.goalId);
+                            saveGoal(goal);
                           });
                         },
                         child: Icon(
@@ -217,6 +247,12 @@ class _GoalAdd extends State<GoalAdd> {
                             border: InputBorder.none,
                             hintStyle: TextStyle(color: Colors.white, fontSize:size.width * 0.025), // 힌트 텍스트
                           ),
+                          onChanged: (value) {
+                            // TextField 값이 변경될 때마다 호출되는 콜백
+                            setState(() {
+                              goal.goalName = value; // 전역 변수에 값 저장
+                            });
+                          },
                         ),
                       ],
                     ),
@@ -251,6 +287,12 @@ class _GoalAdd extends State<GoalAdd> {
                             border: InputBorder.none,
                             hintStyle: TextStyle(color: Colors.white, fontSize:size.width * 0.025), // 힌트 텍스트
                           ),
+                          onChanged: (value) {
+                            // TextField 값이 변경될 때마다 호출되는 콜백
+                            setState(() {
+                              goal.goalDetail = value; // 전역 변수에 값 저장
+                            });
+                          },
                         ),
                       ],
                     ),
@@ -277,6 +319,7 @@ class _GoalAdd extends State<GoalAdd> {
                             fontWeight: FontWeight.bold,
                             fontSize: size.width * 0.025, // 예시로 화면 폭의 5% 크기로 설정
                           ),
+
                         ),
                         TextField(
                           controller:  TextEditingController(text: goal.goalSeconds.toString()),
@@ -286,7 +329,13 @@ class _GoalAdd extends State<GoalAdd> {
                                 fontWeight: FontWeight.bold,
                                 fontSize:size.width * 0.1
                               ), // 입력된 텍스트
-                          // TODO 숫자만 입력 되도록 유효성 검사 넣기
+                          
+                          // 숫자만 넣기
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+
                           decoration: InputDecoration(
                             hintText: '0',
                             border: InputBorder.none,
@@ -297,6 +346,12 @@ class _GoalAdd extends State<GoalAdd> {
                                 fontSize:size.width * 0.1,
                               ), // 힌트 텍스트
                           ),
+                          onChanged: (value) {
+                            // TextField 값이 변경될 때마다 호출되는 콜백
+                            setState(() {
+                              goal.goalSeconds = int.parse(value); // 전역 변수에 값 저장
+                            });
+                          },
                         ),
                       ],
                     ),

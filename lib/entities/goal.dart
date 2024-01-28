@@ -1,16 +1,16 @@
 // 목표
 class Goal{
   final String userId;
-  final String goalId;
-  final String goalName;
-  final String goalDetail;
-  final int goalSeconds;
-  final int accumulateSeconds;
-  final double goalPercent;
-  final String goalStat;
-  final String color;
-  final String writeDate; // 변경 예정
-  final String modifyDate; // 변경 예정
+   String goalId;
+  String goalName;
+  String goalDetail;
+  int goalSeconds;
+  int accumulateSeconds;
+  double goalPercent;
+  String goalStat;
+  String color;
+  String writeDate; // 변경 예정
+  String modifyDate; // 변경 예정
 
   Goal({
     required this.userId,
@@ -42,4 +42,18 @@ class Goal{
     );
   }
 
+
+  Map<String, dynamic> toJson() {
+    return {
+      'user_id': userId,
+      'goal_id': goalId,
+      'goal_name': goalName,
+      'goal_detail': goalDetail,
+      'goal_seconds': goalSeconds,
+      'accumulate_seconds': accumulateSeconds,
+      'goal_percent': goalPercent,
+      'goal_stat': goalStat,
+      'color': color,
+    };
+  }
 }
